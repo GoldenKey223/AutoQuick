@@ -32,14 +32,16 @@ Days,Class,FilePath1,FilePath2,...
 Mon,Math,C:\path\to\math\notes
 Tues,Physics,C:\path\to\physics\lab
 ```
-
+Sunday -> Sun
 Monday -> Mon
 Tuesday -> Tues
 Wednesday -> Wed
 Thursday -> Thurs
 Friday -> Fri
 Saturday -> Sat
-Sunday -> Sun
+Sunday ~ Saturday -> All
+weekday -> wday
+weekend -> wend
 
 ### Usage
 

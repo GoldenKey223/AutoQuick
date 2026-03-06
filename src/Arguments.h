@@ -4,17 +4,13 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
-// Struct to store the arguments
-
 struct AppConfig
 {
-    string config_Path = "config.json";
+    std::string config_path = "config.csv";
+    bool config = false;
     bool verbose = false;
 };
 
-// Functions
 void printVersion();
 void printHelp();
 AppConfig parseArguments(int argc, char* argv[]);

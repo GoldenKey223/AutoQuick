@@ -6,16 +6,14 @@
 #include <fstream>
 #include <sstream>
 
-using namespace std;
-
 struct TimetableEntry
 {
-    string day;
-    string className;
-    vector<string> paths;
+    std::string day;
+    std::string className;
+    std::vector<std::string> paths;
 };
 
-static vector<string> parseCSVLine(const string& line);
-vector<TimetableEntry> loadTimetableCSV(const string& filename);
+static std::vector<std::string> parseCSVLine(const std::string& line);
+std::vector<TimetableEntry> loadTimetableCSV(const std::string& filename);
 
 #endif

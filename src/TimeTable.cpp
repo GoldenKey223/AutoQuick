@@ -1,8 +1,8 @@
 #include "TimeTable.h"
 
-static vector<string> parseCSVLine(const string& line){
-    vector<string> result;
-    string field;
+static std::vector<std::string> parseCSVLine(const std::string& line){
+    std::vector<std::string> result;
+    std::string field;
     bool inQuotes = false;
 
     for (size_t i = 0; i < line.size(); i++)
@@ -28,14 +28,14 @@ static vector<string> parseCSVLine(const string& line){
     return result;
 }
 
-vector<TimetableEntry> loadTimetableCSV(const string& filename){
-    vector<TimetableEntry> entries;
-    ifstream file(filename);
+std::vector<TimetableEntry> loadTimetableCSV(const std::string& filename){
+    std::vector<TimetableEntry> entries;
+    std::ifstream file(filename);
 
     if (!file.is_open())
         return entries;
 
-    string line;
+    std::string line;
 
     // skip header
     getline(file, line);

@@ -1,13 +1,13 @@
 #include "Arguments.h"
 
-const string APP_VERSION = "1.0.0";
+const std::string APP_VERSION = "1.0.0";
 
 void printVersion(){
-    cout << "AutoQuick version - " << APP_VERSION << endl;
+    std::cout << "AutoQuick version - " << APP_VERSION << std::endl;
 }
 
 void printHelp(){
-    cout
+    std::cout
     <<"AutoQuick - Timetable-Based Quick Access Manager\n"
     <<"Usage: AutoQuick.exe [options]\n"
     <<"\n"
@@ -16,14 +16,14 @@ void printHelp(){
     <<" -v, --version        Display application version\n"
     <<" -c, --config <path>  Path to timetable.csv\n"
     <<" --verbose            Enable detailed logging\n"
-    <<endl;
+    <<std::endl;
 }
 
 AppConfig parseArguments(int argc, char* argv[]){
     AppConfig config;
 
     for (int i = 1; i < argc; ++i){
-        string arg = argv[i];
+        std::string arg = argv[i];
         if(arg == "--version" || arg == "-v"){
             printVersion();
             exit(0);
@@ -31,7 +31,8 @@ AppConfig parseArguments(int argc, char* argv[]){
             printHelp();
             exit(0);
         }else if(arg == "--config" || arg == "-c"){
-            config.config_Path = argv[++i];
+            config.config_path = argv[++i];
+            config.config = true;
         }else if(arg == "--verbose" || arg == "-v"){
             config.verbose = true;
         }

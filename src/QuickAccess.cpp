@@ -1,6 +1,6 @@
 #include "QuickAccess.h"
 
-static void invokeVerb(const wstring& path, const wchar_t* verb){
+static void invokeVerb(const std::wstring& path, const wchar_t* verb){
     IShellItem* item = nullptr;
     IContextMenu* menu = nullptr;
 
@@ -26,15 +26,15 @@ static void invokeVerb(const wstring& path, const wchar_t* verb){
     item->Release();
 }
 
-void addToQuickAccess(const wstring& path){
+void addToQuickAccess(const std::wstring& path){
     invokeVerb(path, L"pintohome");
 }
 
-void removeFromQuickAccess(const wstring& path){
+void removeFromQuickAccess(const std::wstring& path){
     invokeVerb(path, L"unpinfromhome");
 }
 
-bool isPinnedToQuickAccess(const wstring& path){
+bool isPinnedToQuickAccess(const std::wstring& path){
     IShellItem* quickAccess = nullptr;
 
     HRESULT hr = SHCreateItemFromParsingName(

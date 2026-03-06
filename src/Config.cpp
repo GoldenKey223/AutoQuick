@@ -1,45 +1,45 @@
 #include "Config.h"
 
-int loadTimetable(const string& userCSV)
+int loadTimetable(const std::string& userCSV)
 {
     char buffer[MAX_PATH];
 
     if (GetModuleFileNameA(nullptr, buffer, MAX_PATH) == 0)
     {
-        cout << "Unable to determine executable path.\n";
+        std::cout << "Unable to determine executable path.\n";
         return 1;
     }
 
-    filesystem::path exeDir = filesystem::path(buffer).parent_path();
-    filesystem::path timetablePath = exeDir / "timetable.csv";
+    std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
+    std::filesystem::path timetablePath = exeDir / "timetable.csv";
 
     if(userCSV.empty()) return 1;
-    if(!filesystem::exists(userCSV)) return 1;
+    if(!std::filesystem::exists(userCSV)) return 1;
 
     try{
-        if(filesystem::exists(timetablePath)){
+        if(std::filesystem::exists(timetablePath)){
             char overwrite;
 
-            cout
+            std::cout
                 << "A timetable already exists.\n"
                 << "Overwrite it? [Y/n]: ";
 
-            cin >> overwrite;
+            std::cin >> overwrite;
 
             if(overwrite != 'y' && overwrite != 'Y'){
-                cout << "Timetable not modified.\n";
+                std::cout << "Timetable not modified.\n";
                 return 1;
             }
         }
 
-        filesystem::copy_file(userCSV, timetablePath, filesystem::copy_options::overwrite_existing);
+        std::filesystem::copy_file(userCSV, timetablePath, std::filesystem::copy_options::overwrite_existing);
 
-        cout << "Timetable loaded from: " << userCSV << endl;
+        std::cout << "Timetable loaded from: " << userCSV << std::endl;
         return 0;
     }
-    catch (const exception& e)
+    catch (const std::exception& e)
     {
-        cout << "Failed to copy timetable: " << e.what() << endl;
+        std::cout << "Failed to copy timetable: " << e.what() << std::endl;
         return 1;
     }
 }

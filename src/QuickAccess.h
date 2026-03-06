@@ -6,11 +6,9 @@
 #include <shlobj.h>
 #include <string>
 
-using namespace std;
-
-static void invokeVerb(const wstring& path, const wchar_t* verb);
-void addToQuickAccess(const wstring& path);
-void removeFromQuickAccess(const wstring& path);
-bool isPinnedToQuickAccess(const wstring& path);
+static void invokeVerb(const std::wstring& path, const wchar_t* verb);
+void addToQuickAccess(const std::wstring& path);
+void removeFromQuickAccess(const std::wstring& path);
+bool isPinnedToQuickAccess(const std::wstring& path);
 
 #endif
