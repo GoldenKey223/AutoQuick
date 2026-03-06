@@ -1,13 +1,13 @@
 # AutoQuick
 
-AutoQuick is a utility application that automatically manages your Quick Access files and folders based on your school timetable. It intelligently adds and removes items from Quick Access throughout the day to keep your workspace organized and relevant to your current classes.
+AutoQuick is a utility application that automatically manages your Quick Access files and folders based on your timetable.
+It adds and removes items from Quick Access at start of the computer start to keep your workspace organized and relevant to your today's schedule.
 
 ## Features
 
 - 📅 **Timetable-Based Automation**: Load your schedule from a CSV file
 - 📌 **Smart Quick Access Management**: Automatically add/remove files and folders based on current class
 - ⚡ **Built with C++**: Fast and efficient performance
-- 🔄 **Real-Time Updates**: Syncs with your timetable throughout the day
 
 ## Getting Started
 
@@ -24,13 +24,22 @@ AutoQuick is a utility application that automatically manages your Quick Access 
 
 ### CSV Format
 
-Create a `timetable.csv` file with the following format:
+Starting AutoQuick will create a 'timetable.csv' at installed location if it is not present.
+Edit the 'timetable.csv' file with the following format:
 
 ```
-Time,Class,FilePath1,FilePath2,...
-08:00,Math,C:\path\to\math\notes
-10:00,Physics,C:\path\to\physics\lab
+Days,Class,FilePath1,FilePath2,...
+Mon,Math,C:\path\to\math\notes
+Tues,Physics,C:\path\to\physics\lab
 ```
+
+Monday -> Mon
+Tuesday -> Tues
+Wednesday -> Wed
+Thursday -> Thurs
+Friday -> Fri
+Saturday -> Sat
+Sunday -> Sun
 
 ### Usage
 
@@ -38,12 +47,18 @@ Time,Class,FilePath1,FilePath2,...
 AutoQuick.exe --config timetable.csv
 ```
 
-## Configuration
+## help
 
-Edit your CSV file to specify:
-- Class start times
-- Associated folders/files for each class
-- Duration of each class
+Usage: AutoQuick.exe [options]
+
+Options:
+ -h, --help           Show help message
+ -v, --version        Display application version
+ -c, --config <path>  Path to timetable.csv
+ --verbose            Enable detailed logging
+ --list               List timetable
+ --add <path>         Add to timetable
+ --remove <path>      Remove from timetable
 
 ## License
 
