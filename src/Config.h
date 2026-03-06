@@ -7,6 +7,6 @@
 #include <iostream>
 #include <string>
 
-int loadTimetable(const std::string& userCSV = "");
+int loadTimetable(const std::string& userCSV);
 
 #endif
