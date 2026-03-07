@@ -28,7 +28,7 @@ Starting AutoQuick will create a 'timetable.csv' at installed location if it is 
 Edit the 'timetable.csv' file with the following format:
 
 ```
-Days,Class,FilePath1,FilePath2,...
+Days,Class,FilePath1
 Mon,Math,C:\path\to\math\notes
 Tues,Physics,C:\path\to\physics\lab
 ```

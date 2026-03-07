@@ -7,7 +7,13 @@ project(
 )
 
 set(CMAKE_CXX_STANDARD 17)
-
-enable_testing()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(src)
+
+install(TARGETS AutoQuick
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
+
+enable_testing()

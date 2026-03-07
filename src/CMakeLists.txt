@@ -12,4 +12,5 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         Shell32
         Ole32
+        Uuid
 )

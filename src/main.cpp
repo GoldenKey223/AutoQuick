@@ -2,6 +2,8 @@
 AutoQuick
 */
 
+#include <windows.h>
+#include <filesystem>
 #include <iostream>
 #include <ctime>
 #include <string>
@@ -25,8 +27,13 @@ int main (int argc, char* argv[])
     std::cout << "checked for config argument." << std::endl;
     
     // loading saved timetable.csv
-    std::vector<TimetableEntry> entries = loadTimetableCSV("timetable.csv");
-    std::cout << "checked for saved timetable." << std::endl;
+    char buffer[MAX_PATH];
+    GetModuleFileNameA(nullptr, buffer, MAX_PATH);
+    std::filesystem::path exeDir = std::filesystem::path(buffer).parent_path();
+    std::filesystem::path timetablePath = exeDir / "timetable.csv";
+
+    std::vector<TimetableEntry> entries = loadTimetableCSV(timetablePath.string());
+    std::cout << "checked for saved timetable.\n" << "Size of entries: " << entries.size() << std::endl;
 
     // get system day of week
     const std::vector<std::string> days = {"Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"};
