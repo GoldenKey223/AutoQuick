@@ -8,16 +8,27 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <ctime>
+#include <codecvt>
+#include <locale>
+
+#include "Arguments.h"
 
 struct TimetableEntry
 {
-    std::string day;
-    std::string className;
-    std::string path;
+    std::wstring day;
+    std::wstring class_name;
+    std::wstring path;
+
+    bool should_be_active = false;
+    bool isActive = false;
 };
 
+std::filesystem::path getTimetablePath();
 std::vector<TimetableEntry> loadTimetableCSV();
-int saveConfig(const std::string& userCSV);
-
+int saveConfig(const std::wstring& userCSV);
+int addToTimetable(const AppConfig& config);
+int removeFromTimetable(const AppConfig& config);
+void shouldBeActive(std::vector<TimetableEntry>& entries);
 
 #endif

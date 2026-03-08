@@ -10,13 +10,13 @@ void printHelp(){
     <<"Usage: AutoQuick.exe [options]\n"
     <<"\n"
     <<"Options:\n"
-    <<"  -h, --help                Show help message\n"
-    <<"  -v, --version             Display application version\n"
-    <<"  -c, --config <path>       Path to timetable.csv\n"
-    <<"  -s, --set                 Refreshes quick access\n"
-    <<"  -r, --reset               Resets quick access to default\n"
-    <<"  -a, --add <day> <path>      adds <day> and <path> to config\n"
-    <<"  -rm, --remove <day> <path>  removes <day> and <path> from config\n"
+    <<"  -h, --help                              Show help message\n"
+    <<"  -v, --version                           Display application version\n"
+    <<"  -c, --config <path>                     Path to timetable.csv\n"
+    <<"  -s, --set                               Refreshes quick access\n"
+    <<"  -r, --reset                             Resets quick access to default\n"
+    <<"  -a, --add <day> <className> <path>      adds <day> and <path> to config\n"
+    <<"  -rm, --remove <day> <className> <path>  removes <day> and <path> from config\n"
     <<std::endl;
 }
 
@@ -47,23 +47,25 @@ AppConfig parseArguments(int argc, wchar_t* argv[]){
             config.reset = true;
             config.flag_count++;
         }else if (arg == L"-a" || arg == L"--add"){
-            if (i + 2 < argc){
+            if (i + 3 < argc){
                 config.add_config_day = argv[++i];
+                config.add_config_class_name = argv[++i];
                 config.add_config_path = argv[++i];
                 config.add = true;
                 config.flag_count++;
             }else{
-                std::cerr << "Error: -a, --add requires <day> <path>.\n";
+                std::cerr << "Error: -a, --add requires <day> <className> <path>.\n";
                 exit(1);
             }
         }else if (arg == L"-rm" || arg == L"--remove"){
-            if (i + 2 < argc){
+            if (i + 3 < argc){
                 config.remove_config_day = argv[++i];
+                config.remove_config_class_name = argv[++i];
                 config.remove_config_path = argv[++i];
                 config.remove = true;
                 config.flag_count++;
             }else{
-                std::cerr << "Error: -rm, --remove requires <day> <path>.\n";
+                std::cerr << "Error: -rm, --remove requires <day> <className> <path>.\n";
                 exit(1);
             }
         }else{

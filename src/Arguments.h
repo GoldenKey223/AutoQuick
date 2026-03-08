@@ -16,10 +16,12 @@ struct AppConfig
     bool reset = false;
 
     std::wstring add_config_day;
+    std::wstring add_config_class_name;
     std::wstring add_config_path;
     bool add = false;
     
     std::wstring remove_config_day;
+    std::wstring remove_config_class_name;
     std::wstring remove_config_path;
     bool remove = false;
 };

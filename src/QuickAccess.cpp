@@ -1,87 +1,36 @@
 #include "QuickAccess.h"
 
-static void invokeVerb(const std::wstring& path, const wchar_t* verb){
-    IShellItem* item = nullptr;
-    IContextMenu* menu = nullptr;
+int toggleQuickAccess(const std::wstring& path){
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 
-    if (FAILED(SHCreateItemFromParsingName(path.c_str(), nullptr, IID_PPV_ARGS(&item))))
-        return;
+    SHELLEXECUTEINFOW sei = { sizeof(sei) };
+    sei.fMask = SEE_MASK_UNICODE | SEE_MASK_INVOKEIDLIST | SEE_MASK_FLAG_NO_UI;
+    sei.lpVerb = L"pintohome";
+    sei.lpFile = path.c_str();
+    sei.nShow = SW_HIDE;
 
-    if (FAILED(item->BindToHandler(nullptr, BHID_SFUIObject, IID_PPV_ARGS(&menu)))){
-        item->Release();
-        return;
+    if (!ShellExecuteExW(&sei)) {
+        DWORD error = GetLastError();
+        std::cerr << "ShellExecuteEx failed. Error: " << std::dec << error << std::endl;
+    } else {
+        std::wcout << L"Successfully invoked: " << L"pintohome" << L" on " << path << std::endl;
     }
+    CoUninitialize();
 
-    CMINVOKECOMMANDINFOEX info{};
-    info.cbSize = sizeof(info);
-    info.fMask = CMIC_MASK_UNICODE;
-    info.lpVerb = (LPCSTR)verb;
-    info.lpVerbW = verb;
-    info.nShow = SW_SHOWNORMAL;
-
-    menu->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
-
-    menu->Release();
-    item->Release();
-    
-    std::cout << "invokeverb function ran." << std::endl;
+    return 0;
 }
 
-void addToQuickAccess(const std::wstring& path){
-    invokeVerb(path, L"pintohome");
-}
-
-void removeFromQuickAccess(const std::wstring& path){
-    invokeVerb(path, L"unpinfromhome");
-}
-
-bool isPinnedToQuickAccess(const std::wstring& path){
-    std::cout << "checking if pinned to quick access." << std::endl;
-    IShellItem* quickAccess = nullptr;
-
-    HRESULT hr = SHCreateItemFromParsingName(
-        L"shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}",
-        nullptr,
-        IID_PPV_ARGS(&quickAccess)
-    );
-
-    if (FAILED(hr))
-        return false;
-
-    IEnumShellItems* enumerator = nullptr;
-    hr = quickAccess->BindToHandler(nullptr, BHID_EnumItems, IID_PPV_ARGS(&enumerator));
-
-    if (FAILED(hr))
-    {
-        quickAccess->Release();
-        return false;
-    }
-
-    IShellItem* item = nullptr;
-
-    while (enumerator->Next(1, &item, nullptr) == S_OK)
-    {
-        PWSTR itemPath = nullptr;
-
-        if (SUCCEEDED(item->GetDisplayName(SIGDN_FILESYSPATH, &itemPath)))
-        {
-            if (_wcsicmp(itemPath, path.c_str()) == 0)
-            {
-                CoTaskMemFree(itemPath);
-                item->Release();
-                enumerator->Release();
-                quickAccess->Release();
-                return true;
-            }
-
-            CoTaskMemFree(itemPath);
+int resetQuickAccess(){
+    wchar_t* appDataPath = nullptr;
+    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &appDataPath))) {
+        std::filesystem::path path = appDataPath;
+        path /= L"Microsoft\\Windows\\Recent\\AutomaticDestinations\\f01b4d95cf55d32a.automaticDestinations-ms";
+        
+        std::error_code ec;
+        if (std::filesystem::remove(path, ec)) {
+            std::cout << "Quick Access Reset Successfully." << std::endl;
         }
-
-        item->Release();
+        CoTaskMemFree(appDataPath);
     }
-
-    enumerator->Release();
-    quickAccess->Release();
-
-    return false;
+    return 0;
 }

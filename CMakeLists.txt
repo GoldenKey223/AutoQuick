@@ -11,6 +11,10 @@ add_definitions(-DAPP_VERSION="1.0.0")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Default install location" FORCE)
+endif()
+
 add_subdirectory(src)
 
 install(TARGETS AutoQuick
