@@ -7,8 +7,7 @@ static void invokeVerb(const std::wstring& path, const wchar_t* verb){
     if (FAILED(SHCreateItemFromParsingName(path.c_str(), nullptr, IID_PPV_ARGS(&item))))
         return;
 
-    if (FAILED(item->BindToHandler(nullptr, BHID_SFUIObject, IID_PPV_ARGS(&menu))))
-    {
+    if (FAILED(item->BindToHandler(nullptr, BHID_SFUIObject, IID_PPV_ARGS(&menu)))){
         item->Release();
         return;
     }
@@ -24,6 +23,8 @@ static void invokeVerb(const std::wstring& path, const wchar_t* verb){
 
     menu->Release();
     item->Release();
+    
+    std::cout << "invokeverb function ran." << std::endl;
 }
 
 void addToQuickAccess(const std::wstring& path){
@@ -35,6 +36,7 @@ void removeFromQuickAccess(const std::wstring& path){
 }
 
 bool isPinnedToQuickAccess(const std::wstring& path){
+    std::cout << "checking if pinned to quick access." << std::endl;
     IShellItem* quickAccess = nullptr;
 
     HRESULT hr = SHCreateItemFromParsingName(

@@ -25,12 +25,11 @@ It adds and removes items from Quick Access at start of the computer start to ke
 ### CSV Format
 
 Starting AutoQuick will create a 'timetable.csv' at installed location if it is not present.
-Edit the 'timetable.csv' file with the following format:
+Edit the 'timetable.csv' file with the following format (DO NOT INCLUDE HEADER):
 
 ```
-Days,Class,FilePath1
-Mon,Math,C:\path\to\math\notes
-Tues,Physics,C:\path\to\physics\lab
+Mon|Math|C:\path\to\math\notes
+Tues|Physics|C:\path\to\physics\lab
 ```
 Sunday -> Sun
 Monday -> Mon

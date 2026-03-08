@@ -2,3 +2,10 @@
 build/
 test/
 deployed/
+
+# file
+note.txt
+src/Config.cpp
+src/Config.h
+src/Timetable.cpp
+src/Timetable.h

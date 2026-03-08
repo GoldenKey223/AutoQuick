@@ -2,8 +2,7 @@ set(SRC_FILES
     main.cpp
     Arguments.cpp
     QuickAccess.cpp
-    TimeTable.cpp
-    Config.cpp
+    DataManager.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})

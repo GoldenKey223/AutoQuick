@@ -14,11 +14,34 @@ AutoQuick
 #include "QuickAccess.h"
 #include "TimeTable.h"
 
-int main (int argc, char* argv[])
-{
+int wmain(int argc, wchar_t* argv[]){
     // argument parsing
     AppConfig config = parseArguments(argc, argv);
     std::cout << "parsed arugments." << std::endl;
+
+    if (config.flag_count == 0){
+        return 0;
+    }
+
+    if (config.config){
+
+    }
+
+    if (config.set){
+        
+    }
+
+    if (config.reset){
+
+    }
+
+    if (config.add){
+
+    }
+
+    if (config.remove){
+        
+    }
 
     // check for config arguments
     if(config.config){
@@ -58,8 +81,10 @@ int main (int argc, char* argv[])
             std::wstring wpath(path.begin(), path.end());
 
             if(souldBeActive){
+                std::cout << entry.className << " should be active.\n";
                 if(!isPinnedToQuickAccess(wpath)) addToQuickAccess(wpath);
             }else{
+                std::cout << entry.className << " should not be active.\n";
                 if(isPinnedToQuickAccess(wpath)) removeFromQuickAccess(wpath);
             }
         }
