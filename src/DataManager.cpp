@@ -141,7 +141,58 @@ int addToTimetable(const AppConfig& config){
 }
 
 int removeFromTimetable(const AppConfig& config){
-    // to be added, make wstring from arguments and just compare with getline
+    std::filesystem::path path = getTimetablePath();
+    std::wifstream inFile(path);
+    if (!inFile.is_open()) {
+        std::wcerr << L"Error: Could not open timetable for reading." << std::endl;
+        return 1;
+    }
+    
+    inFile.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
+
+    std::vector<std::wstring> lines;
+    std::wstring line;
+    std::wstring header;
+
+    std::getline(inFile, header);
+
+    bool found = false;
+    while (std::getline(inFile, line)) {
+        if (line.empty()) continue;
+        std::wstring cleanLine = line;
+        if (!cleanLine.empty() && cleanLine.back() == L'\r') cleanLine.pop_back();
+
+        std::vector<std::wstring> fields = parseCSVLine(cleanLine);
+        
+
+        if (fields.size() >= 3 && fields[0] == config.remove_config_day && fields[1] == config.remove_config_class_name && fields[2] == config.remove_config_path){
+            found = true;
+            std::wcout << L"Removing: " << fields[1] << L" (" << fields[0] << L")" << std::endl;
+            continue;
+        }
+        lines.push_back(line);
+    }
+    inFile.close();
+
+    if (!found) {
+        std::wcout << L"No matching entry found for Day: " << config.remove_config_day 
+                   << L" and Path: " << config.remove_config_path << std::endl;
+        return 1;
+    }
+
+    // 3. Write back to file (Overwriting)
+    std::wofstream outFile(path, std::ios::trunc);
+    outFile.imbue(std::locale(std::locale(), new std::codecvt_utf8<wchar_t>));
+    
+    if (!outFile.is_open()) return 1;
+
+    backupTimetable();
+    outFile << header << std::endl; // Put the header back
+    for (const auto& l : lines) {
+        outFile << l << std::endl;
+    }
+
+    return 0;
 }
 
 void shouldBeActive(std::vector<TimetableEntry>& entries){

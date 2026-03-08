@@ -28,7 +28,7 @@ Starting AutoQuick will create a 'timetable.csv' at installed location if it is 
 Edit the 'timetable.csv' file with the following format (INCLUDE HEADER):
 
 ```
-day,class,path
+day|class|path
 Mon|Math|C:\path\to\math\notes
 Tues|Physics|C:\path\to\physics\lab
 ```
@@ -54,13 +54,13 @@ AutoQuick.exe --config timetable.csv
 Usage: AutoQuick.exe [options]
 
 Options:
- -h, --help           Show help message
- -v, --version        Display application version
- -c, --config <path>  Path to timetable.csv
- --verbose            Enable detailed logging
- --list               List timetable
- --add <path>         Add to timetable
- --remove <path>      Remove from timetable
+  -h, --help                              Show help message\n"
+  -v, --version                           Display application version\n"
+  -c, --config <path>                     Path to timetable.csv\n"
+  -s, --set                               Refreshes quick access\n"
+  -r, --reset                             Resets quick access to default\n"
+  -a, --add <day> <className> <path>      adds <day> and <path> to config\n"
+  -rm, --remove <day> <className> <path>  removes <day> and <path> from config\n"
 
 ## License
 

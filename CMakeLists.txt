@@ -6,7 +6,7 @@ project(
     LANGUAGES CXX
 )
 
-add_definitions(-DAPP_VERSION="1.0.0")
+add_definitions(-DAPP_VERSION="1.1.0")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
