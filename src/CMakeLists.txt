@@ -3,6 +3,7 @@ set(SRC_FILES
     Arguments.cpp
     QuickAccess.cpp
     DataManager.cpp
+    NetworkDrive.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
@@ -18,4 +19,5 @@ target_link_libraries(${PROJECT_NAME}
         Shell32
         Ole32
         Uuid
+        Mpr
 )
