@@ -1,12 +1,15 @@
-set(SRC_FILES
-    main.cpp
-    Arguments.cpp
-    QuickAccess.cpp
-    DataManager.cpp
-    NetworkDrive.cpp
+add_executable(${PROJECT_NAME})
+
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        main.cpp
 )
 
-add_executable(${PROJECT_NAME} ${SRC_FILES})
+# add subdirectories
+add_subdirectory(core)
+add_subdirectory(net)
+add_subdirectory(ui)
+add_subdirectory(utils)
 
 if(MINGW)
     target_link_options(${PROJECT_NAME} PRIVATE "-municode")
