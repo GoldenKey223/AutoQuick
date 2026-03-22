@@ -1,26 +1,48 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(
-    AutoQuick
-    VERSION 1.0.0 
-    LANGUAGES CXX
-)
+project(AutoQuick VERSION 2.0.0 LANGUAGES CXX)
 
-add_definitions(-DAPP_VERSION="1.1.0")
+add_definitions(-DAPP_VERSION="2.0.0")
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_COMPILER "C:/msys64/mingw64/bin/g++.exe")
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Default install location" FORCE)
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick)
+
+qt_add_executable(${PROJECT_NAME}
+    src/main.cpp
+)
+
+qt_add_qml_module(${PROJECT_NAME}
+    URI ${PROJECT_NAME}
+    RESOURCE_PREFIX /
+    QML_FILES
+        assets/qml/main.qml
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Qml
+        Qt6::Quick
+)
+
+if (MSVC)
+    target_sources(${PROJECT_NAME} PRIVATE qt6.natvis)
 endif()
 
-add_subdirectory(src)
+install(TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION bin
+)
 
-install(TARGETS AutoQuick
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+qt_generate_deploy_qml_app_script(
+    TARGET ${PROJECT_NAME}
+    OUTPUT_SCRIPT deploy_script
+)
 
-enable_testing()
+install(SCRIPT ${deploy_script})

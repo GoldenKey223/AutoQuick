@@ -2,60 +2,26 @@
 AutoQuick
 */
 
-#include <windows.h>
-#include <iostream>
-#include <string>
-#include <vector>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QDebug>
 
-#include "Arguments.h"
-#include "QuickAccess.h"
-#include "DataManager.h"
+int main(int argc, char* argv[]){
+    QGuiApplication app(argc, argv);
 
-int wmain(int argc, wchar_t* argv[]){
-    // argument parsing
-    AppConfig config = parseArguments(argc, argv);
+    QQmlApplicationEngine engine;
 
-    if (config.flag_count == 0){
-        resetQuickAccess();
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
+        &app, []() {
+            qWarning() << "CRITICAL ERROR: QML Engine failed to load the file!";
+            QCoreApplication::exit(-1);
+        },
+        Qt::QueuedConnection);
+    
+    // const QUrl url(u"qrc:/<your URI value from qt_add_qml_module in CMakeLists.txt>/<name of your qml file>)
+    const QUrl url(u"qrc:/AutoQuick/assets/qml/main.qml"_qs);
+    
+    engine.load(url);
 
-        std::vector<TimetableEntry> entries = loadTimetableCSV();
-        for (TimetableEntry entry : entries){
-            if (entry.should_be_active){
-                toggleQuickAccess(entry.path);
-                entry.isActive = true;
-            }
-        }
-
-        return 0;
-    }
-
-    if (config.config){
-        saveConfig(config.config_path);
-    }
-
-    if (config.set){
-        resetQuickAccess();
-
-        std::vector<TimetableEntry> entries = loadTimetableCSV();
-        for (TimetableEntry entry : entries){
-            if (entry.should_be_active){
-                toggleQuickAccess(entry.path);
-                entry.isActive = true;
-            }
-        }
-    }
-
-    if (config.reset){
-        resetQuickAccess();
-    }
-
-    if (config.add){
-        addToTimetable(config);
-    }
-
-    if (config.remove){
-        removeFromTimetable(config);
-    }
-
-    return 0;
+    return app.exec();
 }
