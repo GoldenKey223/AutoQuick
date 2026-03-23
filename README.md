@@ -1,5 +1,7 @@
 # AutoQuick
 
+> **Notice**: We are currently extending the application by implanting QML to create a modern graphical user interface.
+
 AutoQuick is a utility application that automatically manages your Quick Access files and folders based on your timetable.
 It adds and removes items from Quick Access at start of the computer start to keep your workspace organized and relevant to your today's schedule.
 
