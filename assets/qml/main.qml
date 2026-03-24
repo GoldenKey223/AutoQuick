@@ -25,6 +25,7 @@ ApplicationWindow {
         enabled: toolBar.openMenuName !== "" 
         hoverEnabled: true 
         onClicked: toolBar.openMenuName = ""
+        // z: 9
     }
 
     header: ToolBar {
@@ -48,13 +49,6 @@ ApplicationWindow {
             height: 35
             color: window.colorBg
             z: 2
-
-            Rectangle {
-                width: parent.width
-                height: 1
-                color: window.colorBorder
-                anchors.bottom: parent.bottom
-            }
 
             RowLayout {
                 anchors.fill: parent
@@ -119,7 +113,7 @@ ApplicationWindow {
                             border.color: colorBorder
                             border.width: 1
                             radius: 5
-                            z: 10 
+                            z: 99
 
                             Column {
                                 id: dropdownCol
@@ -163,25 +157,50 @@ ApplicationWindow {
 
                 Item { Layout.fillWidth: true } 
             }
+
+            // Rectangle {
+            //     width: parent.width
+            //     height: 1
+            //     color: window.colorBorder
+            // }
         }
     }
 
     RowLayout {
+        
         anchors.fill: parent
         spacing: 0
         
+        // Tab bar
+
+        // Timetable
         ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 0
             
+            Rectangle {
+                Layout.fillWidth: true
+                height: 24
+                color: window.colorBorder
+
+                Text {
+                    anchors.fill: parent
+                    text: "Name of current timetable"
+                    color: window.colorTextMain
+                    font.pixelSize: 12
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
             ListView {
                 id: timetableList
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.margins: 32
+                // Layout.margins: 32
                 clip: true
-                spacing: 16
+                spacing: 5
                 
                 model: ListModel {
                     ListElement { day: "Mon"; className: "Math"; path: "C:\\path\\to\\math\\notes" }
@@ -189,59 +208,69 @@ ApplicationWindow {
                 }
 
                 delegate: Rectangle {
-                    width: ListView.view.width
-                    height: 80
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.leftMargin: 5
+                    anchors.rightMargin: 5
+                    // width: ListView.view.width
+                    height: 44
                     radius: 12
                     color: "#ffffff"
                     border.color: "#e0e6ed"
                     border.width: 1
-                    
                     RowLayout {
                         anchors.fill: parent
-                        anchors.leftMargin: 24
-                        anchors.rightMargin: 24
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
                         spacing: 24
 
                         Rectangle {
-                            Layout.preferredWidth: 60
-                            Layout.preferredHeight: 48
+                            id: rowDay
+                            Layout.preferredWidth: 50
+                            Layout.preferredHeight: 28
                             radius: 8
                             color: "#d3f3ee"
                             
                             Label {
                                 anchors.centerIn: parent
                                 text: model.day
-                                font.pixelSize: 16
+                                font.pixelSize: 14
                                 font.weight: Font.Bold
                                 color: "#7fb7be"
-                            }
+                                }
                         }
                         
                         Label {
+                            id: rowClassName
+                            anchors.left: rowDay.right
+                            anchors.leftMargin: 14
                             text: model.className
-                            font.pixelSize: 18
+                            font.pixelSize: 14
                             font.weight: Font.DemiBold
                             color: "#2c3e50"
-                            Layout.preferredWidth: 150
+                            Layout.preferredWidth: 80
                         }
-                        
+
                         Label {
+                            anchors.centerIn: parent
                             text: model.path
                             font.pixelSize: 14
                             color: "#7f8c8d"
-                            elide: Text.ElideRight
-                            Layout.fillWidth: true
                         }
-                        
+
                         Button {
+                            id: rowRemove
+                            anchors.right: parent.right
                             text: "Remove"
-                            Layout.preferredWidth: 100
-                            Layout.preferredHeight: 36
+
+                            Layout.preferredWidth: 80
+                            Layout.preferredHeight: 28
                             contentItem: Text {
                                 text: parent.text
                                 color: parent.down ? "#ffffff" : "#7fb7be"
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
+                                font.pixelSize: 13
                                 font.weight: Font.Medium
                             }
                             background: Rectangle {
@@ -252,86 +281,6 @@ ApplicationWindow {
                             }
                             onClicked: console.log("Remove " + model.className)
                         }
-                    }
-                }
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 100
-                color: "#ffffff"
-                border.color: "#e0e6ed"
-                border.width: 1
-                
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.margins: 20
-                    spacing: 20
-                    
-                    Rectangle {
-                        Layout.preferredWidth: 60
-                        Layout.preferredHeight: 60
-                        radius: 12
-                        color: "#f4f7f8"
-                        border.color: "#e0e6ed"
-                        border.width: 1
-                        Label {
-                            anchors.centerIn: parent
-                            text: "⚙" 
-                            font.pixelSize: 24
-                            color: "#7f8c8d"
-                        }
-                    }
-
-                    Rectangle {
-                        Layout.preferredWidth: 80
-                        Layout.preferredHeight: 60
-                        radius: 12
-                        color: "#f4f7f8"
-                        border.color: "#e0e6ed"
-                        border.width: 1
-                        Label {
-                            anchors.centerIn: parent
-                            text: "⇄"
-                            font.pixelSize: 24
-                            color: "#7f8c8d"
-                        }
-                    }
-
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 60
-                        radius: 12
-                        color: "#f4f7f8"
-                        border.color: colorBorder
-                        border.width: 1
-                        
-                        Label {
-                            anchors.centerIn: parent
-                            text: "Dashboard Overview"
-                            color: "#7f8c8d"
-                            font.pixelSize: 14
-                        }
-                    }
-
-                    Button {
-                        text: "+ Add Item"
-                        Layout.preferredWidth: 140
-                        Layout.preferredHeight: 50
-                        Layout.alignment: Qt.AlignVCenter
-                        contentItem: Text {
-                            text: parent.text
-                            color: "#ffffff"
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            font.weight: Font.Bold
-                            font.pixelSize: 15
-                        }
-                        background: Rectangle {
-                            radius: 8
-                            color: "#7fb7be"
-                        }
-                        onClicked: console.log("add clicked")
                     }
                 }
             }
